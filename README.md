@@ -46,7 +46,7 @@ Or load one from private key:
 
 require_once 'vendor/autoload.php';
 
-use adamyu1024\Filecoin\Address;
+use He426100\Filecoin\Address;
 
 $privateKey = 'ee2868ca9485673b36c38ba4f18551be25d08dd9be9bd24c44cd626b37cadae4';
 
