@@ -76,4 +76,9 @@ class Address
         $prefix = $this->currentNetwork == self::MAINNET ? self::MAINNETPREFIX : self::TESTNETPREFIX;
         return $prefix . "1" . strtolower(\SKleeschulte\Base32::encodeByteStr(hex2bin($hex_str), true));
     }
+
+    public function getPrivateKeyFromHexLotus(string $hex): string
+    {
+        return bin2hex(base64_decode(json_decode(hex2bin($hex), true)['PrivateKey']));
+    }
 }

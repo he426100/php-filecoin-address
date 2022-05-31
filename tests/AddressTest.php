@@ -5,6 +5,8 @@ namespace Tests;
 use He426100\Filecoin\Address;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 
+use function PHPUnit\Framework\assertEquals;
+
 class AddressTest extends BaseTestCase
 {
     public function testAddress()
@@ -28,5 +30,8 @@ class AddressTest extends BaseTestCase
 
         // get hex-lotus key
         $this->assertEquals($address->getHexLotusKey(), '7b2254797065223a22736563703235366b31222c22507269766174654b6579223a223769686f797053465a7a73327734756b38595652766958516a646d2b6d394a4d524d3169617a664b3275513d227d');
+    
+        // get privateKey from hex-lotus
+        $this->assertEquals($address->getPrivateKeyFromHexLotus('7b2254797065223a22736563703235366b31222c22507269766174654b6579223a223769686f797053465a7a73327734756b38595652766958516a646d2b6d394a4d524d3169617a664b3275513d227d'), 'ee2868ca9485673b36c38ba4f18551be25d08dd9be9bd24c44cd626b37cadae4');
     }
 }
