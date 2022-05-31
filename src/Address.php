@@ -1,12 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: adamyu
- * Date: 2021/8/19
- * Time: 11:27
- */
 
-namespace adamyu1024\Filecoin;
+namespace He426100\Filecoin;
 
 use deemru\Blake2b;
 use InvalidArgumentException;
@@ -16,7 +10,6 @@ use Mdanter\Ecc\Serializer\PublicKey\DerPublicKeySerializer;
 
 class Address
 {
-
     const MAINNET = 0;
 
     const TESTNET = 1;
@@ -27,10 +20,15 @@ class Address
 
     public $currentNetwork = self::MAINNET;
 
+    /**
+     * @var PrivateKeyInterface
+     */
+    private $privateKey;
+
     public function __construct(string $privateKey = '')
     {
         $generator = EccFactory::getSecgCurves()->generator256k1();
-        if (empty ($privateKey)) {
+        if (empty($privateKey)) {
             $this->privateKey = $generator->createPrivateKey();
         } else {
             if (!ctype_xdigit($privateKey)) {
@@ -48,6 +46,16 @@ class Address
     public function getPrivateKey(): string
     {
         return str_pad(gmp_strval($this->privateKey->getSecret(), 16), 64, '0', STR_PAD_LEFT);
+    }
+
+    public function getJsonLotusKey(): string
+    {
+        return '{"Type":"secp256k1","PrivateKey":"' . base64_encode(hex2bin($this->getPrivateKey())) . '"}';
+    }
+
+    public function getHexLotusKey(): string
+    {
+        return bin2hex($this->getJsonLotusKey());
     }
 
     public function getPublicKey(): string
@@ -68,9 +76,4 @@ class Address
         $prefix = $this->currentNetwork == self::MAINNET ? self::MAINNETPREFIX : self::TESTNETPREFIX;
         return $prefix . "1" . strtolower(\SKleeschulte\Base32::encodeByteStr(hex2bin($hex_str), true));
     }
-
-    /**
-     * @var PrivateKeyInterface
-     */
-    private $privateKey;
 }
