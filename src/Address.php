@@ -77,8 +77,8 @@ class Address
         return $prefix . "1" . strtolower(\SKleeschulte\Base32::encodeByteStr(hex2bin($hex_str), true));
     }
 
-    public function getPrivateKeyFromHexLotus(string $hex): string
+    public static function fromHexLotus(string $hex): self
     {
-        return bin2hex(base64_decode(json_decode(hex2bin($hex), true)['PrivateKey']));
+        return new static(bin2hex(base64_decode(json_decode(hex2bin($hex), true)['PrivateKey'])));
     }
 }
